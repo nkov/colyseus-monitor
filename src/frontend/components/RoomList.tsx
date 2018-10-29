@@ -25,6 +25,8 @@ import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import PlayArrowIcon from 'material-ui/svg-icons/av/play-arrow';
+
 import DeleteForeverIcon from 'material-ui/svg-icons/action/delete-forever';
 import OpenInBrowserIcon from 'material-ui/svg-icons/action/open-in-browser';
 import SendIcon from 'material-ui/svg-icons/content/send';
@@ -94,6 +96,11 @@ export class RoomList extends React.Component {
       then(() => this.fetchRoomList());
   }
 
+  startGame(roomId) {
+    remoteRoomCall(roomId, 'startGame')
+      .then(() => this.fetchRoomList())
+  }
+
   millisecondsToStr(milliseconds) {
     let temp = Math.floor(milliseconds / 1000);
 
@@ -160,16 +167,19 @@ export class RoomList extends React.Component {
                     label="Inspect"
                     icon={<OpenInBrowserIcon />}
                     onClick={this.inspectRoom.bind(this, room.roomId)}
-                    style={buttonStyle}
-                  />
-
+                    style={buttonStyle} />
                   <FlatButton
                     label="Dispose"
                     secondary={true}
                     icon={<DeleteForeverIcon />}
                     style={buttonStyle}
-                    onClick={this.disposeRoom.bind(this, room.roomId)}
-                  />
+                    onClick={this.disposeRoom.bind(this, room.roomId)} />
+                  <FlatButton
+                    label="Start Game"
+                    secondary={true}
+                    icon={<PlayArrowIcon />}
+                    style={buttonStyle}
+                    onClick={this.startGame.bind(this, room.roomId)} />
                 </TableRowColumn>
               </TableRow>
             ))}
